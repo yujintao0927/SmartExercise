@@ -36,12 +36,6 @@ async function submit() {
     loading.value = false
   }
 }
-
-function useDemo(which) {
-  username.value = which
-  password.value = '123456'
-  mode.value = 'login'
-}
 </script>
 
 <template>
@@ -79,16 +73,6 @@ function useDemo(which) {
         <button class="auth__switch" @click="mode = mode === 'login' ? 'register' : 'login'">
           {{ mode === 'login' ? '没有账号？注册' : '已有账号？登录' }}
         </button>
-
-        <div style="margin-top: 26px; border-top: 1px solid var(--line); padding-top: 16px">
-          <p class="mono" style="font-size: 0.68rem; letter-spacing: 0.12em; color: var(--text-faint); margin-bottom: 10px">
-            演示账号（密码任意）
-          </p>
-          <div style="display: flex; gap: 8px">
-            <button class="btn btn--ghost btn--sm" @click="useDemo('demo')">会员 demo</button>
-            <button class="btn btn--ghost btn--sm" @click="useDemo('admin')">管理员 admin</button>
-          </div>
-        </div>
       </div>
     </div>
   </div>

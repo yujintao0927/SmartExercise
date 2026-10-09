@@ -59,11 +59,13 @@ pip install -r requirements.txt
 > 若下载慢，可先使用国内镜像：
 > `pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`
 
-3. 初始化动作库与计划模板种子数据：
+3. 初始化动作库、计划模板与默认管理员账号：
 
 ```powershell
 python seed.py
 ```
+
+> 默认管理员账号：用户名 `admin`，密码 `admin123`（登录后进入管理端）。
 
 4. 启动后端服务：
 
