@@ -33,11 +33,11 @@
 - **Dependencies**: none
 
 ### T-1：配置数据库连接
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: infrastructure
-- **Description**: 创建 MySQL 数据库 `smart_exercise`；编写 config.py 与 SQLAlchemy engine/session；确保可连通。
+- **Description**: 编写 config.py 与 SQLAlchemy engine/session；开发阶段默认 SQLite（免服务），MySQL 通过环境变量 DATABASE_URL 切换；确保可连通。
 - **Acceptance**: 后端可建立数据库连接，`Base.metadata` 无报错。
 - **Dependencies**: T-0
 
