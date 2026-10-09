@@ -14,7 +14,7 @@ dist/
 .vite/
 npm-debug.log*
 
-# 数据与模型（大文件，按需再纳入版本管理）
+# 数据与模型（大文件与中间产物不入库）
 data/raw/
 data/processed/
 *.joblib
@@ -22,6 +22,9 @@ data/processed/
 *.csv
 *.xlsx
 *.xls
+
+# 预训练模型随仓库分发（约 7.5MB），初次使用者无需重新训练
+!backend/data/processed/model.joblib
 
 # Word 临时锁文件
 ~$*.docx

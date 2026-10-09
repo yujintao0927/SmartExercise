@@ -37,7 +37,7 @@ def main():
     param_grid = {"n_estimators": [50, 100], "max_depth": [10, 20, None]}
     grid = GridSearchCV(
         RandomForestClassifier(random_state=42),
-        param_grid, cv=3, scoring="f1_weighted", n_jobs=-1,
+        param_grid, cv=3, scoring="f1_weighted", n_jobs=1,
     )
     grid.fit(X_train, y_train)
     print("best params:", grid.best_params_)
@@ -57,7 +57,9 @@ def main():
         Xtr, Xte, ytr, yte = train_test_split(
             X, y_col, test_size=0.2, random_state=42, stratify=y_col
         )
-        clf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
+        clf = RandomForestClassifier(
+            n_estimators=100, max_depth=10, random_state=42, n_jobs=1
+        )
         clf.fit(Xtr, ytr)
         p = clf.predict(Xte)
         a = accuracy_score(yte, p)
@@ -86,6 +88,7 @@ def main():
             "feature_importance": importance,
         },
         f"{PROCESSED}/model.joblib",
+        compress=3,
     )
     importance.to_csv(f"{PROCESSED}/feature_importance.csv", index=False, encoding="utf-8-sig")
     print("model saved to data/processed/model.joblib")

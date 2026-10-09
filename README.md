@@ -36,7 +36,7 @@ SmartExercise/
 - Python 3.10 及以上
 - Node.js 18 及以上
 - npm（随 Node 安装）
-- 可访问外网（首次生成数据需下载 Kaggle 数据集镜像）
+- 无需联网下载数据集（预训练模型已随仓库分发）
 
 ## 快速启动
 
@@ -59,28 +59,21 @@ pip install -r requirements.txt
 > 若下载慢，可先使用国内镜像：
 > `pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`
 
-3. 生成数据并训练模型（首次必须执行，见下方「数据与模型生成」）：
-
-```powershell
-python -m ml.make_mock_data
-python -m ml.preprocess
-python -m ml.build_dataset
-python -m ml.train_model
-```
-
-4. 初始化动作库与计划模板种子数据：
+3. 初始化动作库与计划模板种子数据：
 
 ```powershell
 python seed.py
 ```
 
-5. 启动后端服务：
+4. 启动后端服务：
 
 ```powershell
 python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 启动成功后访问接口文档：<http://127.0.0.1:8000/docs>
+
+> 预训练模型已随仓库分发在 `backend/data/processed/model.joblib`，普通使用**无需**重新训练。仅当你需要更换数据集或调整模型时才需执行「开发者进阶：数据与模型训练」。
 
 ### 二、前端启动
 
@@ -108,9 +101,11 @@ npm run dev
 3. 保存后自动跳转「推荐」页，点击「生成推荐」查看训练计划。
 4. 在「训练」页打卡，在「仪表盘」页查看完成率与体重趋势。
 
-## 数据与模型生成
+## 开发者进阶：数据与模型训练
 
-数据文件（`data/raw/`、`data/processed/`）与模型文件（`*.joblib`）均被 `.gitignore` 忽略，新环境需按以下顺序重新生成。
+> **普通使用者无需执行本节。** 预训练模型已随仓库分发在 `backend/data/processed/model.joblib`，直接按「快速启动」即可运行系统。
+>
+> 仅当你需要更换数据集、调整特征或重新调参时才需要重训。数据文件（`data/raw/`、`data/processed/`）与中间产物（`*.csv`、`train.joblib` 等）被 `.gitignore` 忽略，重训需先按以下顺序准备数据。
 
 所有命令均需在 `backend` 目录下执行。
 
@@ -214,8 +209,8 @@ python -m pytest tests/ -v
 
 ## 常见问题
 
-- **后端启动报「模型文件不存在」**：未执行数据与模型生成步骤，请按「数据与模型生成」顺序完成。
+- **后端启动报「模型文件不存在」**：预训练模型应随仓库位于 `backend/data/processed/model.joblib`，若缺失请确认 clone 完整，或按「开发者进阶：数据与模型训练」重新生成。
 - **`ModuleNotFoundError: No module named 'ml'`**：需在 `backend` 目录下运行脚本，且使用 `python -m ml.xxx` 方式。
 - **前端请求后端报 CORS 错误**：确认前端地址在后端 CORS 白名单中，且前端 `baseURL` 与后端实际地址一致。
-- **数据下载失败**：网络无法直连 GitHub 时，改用国内镜像或手动下载后放入 `backend/data/raw/`，文件名保持上述一致。
+- **数据下载失败**：仅在按「开发者进阶」重训时才会下载数据集。网络无法直连 GitHub 时，改用国内镜像或手动下载后放入 `backend/data/raw/`，文件名保持上述一致。
 - **MySQL 连接失败**：确认 `DATABASE_URL` 连接串正确、MySQL 服务已启动、目标数据库已创建。
