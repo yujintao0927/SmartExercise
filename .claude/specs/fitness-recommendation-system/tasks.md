@@ -265,12 +265,12 @@
 ## Phase 4：集成联调
 
 ### T-22：前后端联调
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-1 ~ US-6
-- **Description**: 配置 CORS 白名单；核对各页面接口请求/响应字段一致；修复跨域与数据解析问题。
-- **Acceptance**: 全链路「注册→画像→推荐→打卡→可视化」无报错走通。
+- **Description**: 配置 CORS 白名单（localhost:5173）；核对各页面接口请求/响应字段一致；修复跨域与数据解析问题。
+- **Acceptance**: 全链路「注册→画像→推荐→打卡→可视化」无报错走通，CORS 头正确返回。
 - **Dependencies**: T-17 ~ T-21a
 
 ---
