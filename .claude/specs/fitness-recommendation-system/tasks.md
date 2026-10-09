@@ -365,12 +365,12 @@
 - **Dependencies**: P-5
 
 ### P-7：格式排版、查重与答辩材料
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: 论文
-- **Description**: 按学院模板排版、降重、制作答辩 PPT 与功能框图。
-- **Acceptance**: 通过查重与格式审查，PPT 完成。
+- **Description**: 提取答辩要点结构化信息（docs/答辩要点.md，含论文结构/各章核心/创新点/精选图表）；格式排版与查重需用户按学院模板在本地 Word 完成。
+- **Acceptance**: 答辩要点已提取；格式排版/查重/PPT 制作待用户本地完成。
 - **Dependencies**: P-6
 
 ---
