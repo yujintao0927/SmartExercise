@@ -25,6 +25,7 @@ data/processed/
 
 # Word 临时锁文件
 ~$*.docx
+*.docx
 
 # 系统
 .DS_Store

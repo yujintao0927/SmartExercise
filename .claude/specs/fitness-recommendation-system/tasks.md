@@ -21,9 +21,9 @@
 ## Phase 0：项目初始化与环境搭建
 
 ### T-0：初始化项目结构与开发环境
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: infrastructure
 - **Description**: 按 design.md §8 建立 backend / frontend 目录；初始化 git 仓库；后端 requirements.txt（fastapi、uvicorn、sqlalchemy、pymysql、pydantic、pyjwt、scikit-learn、imbalanced-learn、pandas、joblib）；前端 Vite 脚手架（Vue 3 + Pinia + Router + Axios + ECharts）。
 - **Acceptance**:
