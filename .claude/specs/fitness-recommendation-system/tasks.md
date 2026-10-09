@@ -296,12 +296,12 @@
 - **Dependencies**: T-12
 
 ### T-25：端到端手工测试
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-1 ~ US-6
-- **Description**: 按用户故事逐条手工回归，记录缺陷并修复。
-- **Acceptance**: 所有 EARS 验收标准人工通过。
+- **Description**: 按用户故事逐条回归（happy path + 错误场景：重复注册/错误凭证/伤病互斥/无画像推荐/动态调整），记录缺陷并修复。
+- **Acceptance**: 所有 EARS 验收标准通过（端到端回归 10/10 passed）。
 - **Dependencies**: T-22
 
 ---
