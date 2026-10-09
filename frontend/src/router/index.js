@@ -8,6 +8,11 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       { path: '', name: 'home', component: () => import('../views/HomeView.vue') },
+      { path: 'profile', name: 'profile', component: () => import('../views/ProfileView.vue') },
+      { path: 'recommend', name: 'recommend', component: () => import('../views/RecommendView.vue') },
+      { path: 'training', name: 'training', component: () => import('../views/TrainingView.vue') },
+      { path: 'dashboard', name: 'dashboard', component: () => import('../views/DashboardView.vue') },
+      { path: 'admin', name: 'admin', component: () => import('../views/AdminView.vue') },
     ],
   },
 ]

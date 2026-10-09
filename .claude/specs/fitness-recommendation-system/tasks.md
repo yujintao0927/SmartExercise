@@ -216,45 +216,45 @@
 - **Dependencies**: T-10, T-16
 
 ### T-18：画像录入页面
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-2
 - **Description**: 9 特征表单（下拉/数字输入，injury 多选），内联校验。
 - **Acceptance**: 合法值提交成功，非法值内联报错。
 - **Dependencies**: T-11, T-16
 
 ### T-19：推荐结果展示页面
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-3
 - **Description**: 展示 6 类推荐结果，含动作组合卡片。
 - **Acceptance**: 点击「生成推荐」后展示结果，加载态与错误态正常。
 - **Dependencies**: T-12, T-16
 
 ### T-20：训练打卡页面
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-4, US-5
 - **Description**: 提交完成率、疲劳评分、反馈；展示历史记录与调整建议。
 - **Acceptance**: 打卡可提交；周期结束显示调整建议。
 - **Dependencies**: T-13, T-15, T-16
 
 ### T-21：仪表盘可视化页面
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-6
 - **Description**: ECharts 绘制完成率与体重趋势，支持周/月切换。
 - **Acceptance**: 图表随接口数据正确渲染。
 - **Dependencies**: T-14, T-16
 
 ### T-21a：管理员页面
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: 最小管理员
 - **Description**: 管理端页面，展示用户列表与当前模型版本信息。
 - **Acceptance**: 管理员登录可见入口，页面数据正确渲染。

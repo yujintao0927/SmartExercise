@@ -18,6 +18,11 @@ function logout() {
         <router-link to="/" class="brand">FORCE<span>LAB</span></router-link>
         <nav class="nav">
           <router-link to="/">首页</router-link>
+          <router-link to="/profile">画像</router-link>
+          <router-link to="/recommend">推荐</router-link>
+          <router-link to="/training">训练</router-link>
+          <router-link to="/dashboard">仪表盘</router-link>
+          <router-link to="/admin">管理</router-link>
         </nav>
         <button class="btn btn--ghost btn--sm" @click="logout">登出</button>
       </div>
