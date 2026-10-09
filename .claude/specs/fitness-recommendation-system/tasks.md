@@ -356,12 +356,12 @@
 - **Dependencies**: T-24, T-25, P-3
 
 ### P-6：摘要、结论、参考文献与致谢
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: 论文
-- **Description**: 中英文摘要、结论与展望、规范参考文献、致谢。
-- **Acceptance**: 摘要含方法+结果+结论三要素。
+- **Description**: 中英文摘要、第 7 章总结与展望、GB/T 7714 参考文献。
+- **Acceptance**: 摘要含方法+结果+结论三要素（已完成，致谢待 P-7 排版补）。
 - **Dependencies**: P-5
 
 ### P-7：格式排版、查重与答辩材料
