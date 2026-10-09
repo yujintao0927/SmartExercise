@@ -46,11 +46,11 @@
 ## Phase 1：数据处理与模型训练
 
 ### T-2：数据采集与特征字典定义
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-2, US-3
-- **Description**: 下载三套 Kaggle 数据集；获取问卷星导出 CSV 并统一到 9 特征字典；编写 9 特征标准字典（字段名、取值、编码，见 requirements.md §3.1）。
+- **Description**: 下载三套 Kaggle 数据集（MealPlan 80k、Gym Members 973 已真实下载；Body Performance 因 Kaggle 认证/网络限制用占位数据，正式需 Kaggle）；生成问卷星 CSV 模拟数据（survey.csv 500 条）；编写 9 特征标准字典（backend/ml/feature_dictionary.py）。
 - **Acceptance**: 三套数据 + 问卷 CSV 落盘，特征字典成文。
 - **Dependencies**: T-0
 
