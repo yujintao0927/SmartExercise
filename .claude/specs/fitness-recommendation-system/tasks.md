@@ -347,12 +347,12 @@
 - **Dependencies**: T-22, P-2
 
 ### P-5：系统测试与结果分析章节
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: 论文
-- **Description**: 模型评估结果分析、系统功能测试、性能测试结论。
-- **Acceptance**: 含准确率/加权 F1 表格与测试用例表（对应 T-23 ~ T-25）。
+- **Description**: 撰写第 6 章：模型评估结果、功能测试、性能测试结论。
+- **Acceptance**: 含加权 F1=1.0、端到端 10/10、p95=158.8ms。
 - **Dependencies**: T-24, T-25, P-3
 
 ### P-6：摘要、结论、参考文献与致谢
