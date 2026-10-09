@@ -207,12 +207,12 @@
 - **Dependencies**: T-0
 
 ### T-17：登录/注册页面
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-1
-- **Description**: 登录与注册表单，接入认证接口，保存 token。
-- **Acceptance**: 登录成功跳转首页，失败显示错误提示。
+- **Description**: 登录与注册表单（LoginView.vue），接入 /auth/login 与 /auth/register，保存 token；登录/注册切换。
+- **Acceptance**: 登录成功跳转首页，失败显示错误提示（错误文本来自后端 detail）。
 - **Dependencies**: T-10, T-16
 
 ### T-18：画像录入页面
