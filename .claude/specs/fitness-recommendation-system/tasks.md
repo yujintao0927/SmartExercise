@@ -104,21 +104,21 @@
 ## Phase 2：后端 API
 
 ### T-8：定义 SQLAlchemy 模型
-- **Status**: pending
+- **Status**: completed
 - **Wired**: no
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-1, US-2, US-4, US-6
 - **Description**: 实现 design.md §2.2 的 7 张表（user、user_profile、recommendation_record、training_record、body_metric、exercise、plan_template）；`injury` 用 JSON 存多选部位数组。
-- **Acceptance**: 建表迁移成功，外键关系正确。
+- **Acceptance**: 建表迁移成功，外键关系正确（7 张表已创建）。
 - **Dependencies**: T-1
 
 ### T-8a：动作库与计划模板种子数据
-- **Status**: pending
+- **Status**: completed
 - **Wired**: no
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-3
 - **Description**: 初始化 exercise 动作字典与 plan_template 计划模板（按 目标×强度 组合），供推荐动作组合查询。
-- **Acceptance**: 各 目标×强度 组合存在模板，动作可关联查询。
+- **Acceptance**: 各 目标×强度 组合存在模板，动作可关联查询（44 动作、15 模板）。
 - **Dependencies**: T-8
 
 ### T-9：定义 Pydantic Schemas
