@@ -38,7 +38,7 @@ def sample_features(n):
             "age": RNG.integers(14, 71, n),
             "height_cm": RNG.uniform(140, 211, n).round(1),
             "weight_kg": RNG.uniform(35, 201, n).round(1),
-            "goal": RNG.choice(goals, n),
+            "goal": RNG.choice(goals, n, p=[0.40, 0.25, 0.15, 0.10, 0.10]),
             "experience_level": RNG.choice(exps, n),
             "weekly_hours": RNG.uniform(1, 21, n).round(1),
             "diet_preference": RNG.choice(diets, n),

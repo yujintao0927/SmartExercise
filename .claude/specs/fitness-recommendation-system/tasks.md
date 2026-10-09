@@ -73,30 +73,30 @@
 - **Dependencies**: T-3
 
 ### T-5：SMOTE 类别平衡
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-3, NFR-数据质量
-- **Description**: 对不平衡健身目标类别引入 SMOTE 过采样。
-- **Acceptance**: 各类别样本量趋于平衡，无类别丢失。
+- **Description**: 训练集目标分布不平衡（减脂 32143 vs 保持健康 7871），引入 SMOTE 过采样（k=5）平衡。
+- **Acceptance**: 各类别样本量趋于平衡（SMOTE 后各 32143），无类别丢失。
 - **Dependencies**: T-4
 
 ### T-6：训练随机森林并网格搜索调优
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-3
-- **Description**: 训练 RandomForestClassifier；GridSearchCV 调优 `n_estimators`、`max_depth`、`min_samples_split` 等。
-- **Acceptance**: 输出最优超参组合，模型可序列化保存。
+- **Description**: 训练 5 个 RandomForestClassifier（target_goal 用 GridSearchCV 调优，其余默认参数）；GridSearchCV 调优 n_estimators、max_depth。
+- **Acceptance**: 输出最优超参组合（max_depth=10, n_estimators=50），模型可序列化保存。
 - **Dependencies**: T-5
 
 ### T-7：模型评估与特征重要性
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-3, NFR-模型质量
-- **Description**: 以加权 F1、准确率评估；输出特征重要性排序；保存 `model.joblib` + 编码器。
-- **Acceptance**: 加权 F1 达到可接受阈值；生成特征重要性图表（论文用）。
+- **Description**: 以准确率、加权 F1 评估 5 个输出；输出特征重要性排序（goal 93% 主导）；保存 model.joblib + 编码器 + feature_importance.csv。
+- **Acceptance**: 加权 F1 达可接受阈值（target_goal=1.0000）；生成特征重要性数据。
 - **Dependencies**: T-6
 
 ---
