@@ -131,63 +131,63 @@
 - **Dependencies**: T-8
 
 ### T-10：实现认证路由与 JWT
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-1
 - **Description**: 注册/登录接口；bcrypt 哈希；签发 24h JWT；鉴权依赖；`role` 字段写入。
 - **Acceptance**: 注册成功、重复用户名 409、正确登录 200、错误凭证 401。
 - **Dependencies**: T-8, T-9
 
 ### T-11：实现画像路由
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-2
 - **Description**: PUT/GET `/api/profile`，保存/更新画像（含多选 injury）。
 - **Acceptance**: 画像可写可读，更新后标记推荐待重算。
 - **Dependencies**: T-9, T-10
 
 ### T-12：实现推荐路由与推理服务
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-3
 - **Description**: 加载模型常驻内存；`POST /api/recommend` 推理并保存记录（动作组合由 plan_template 查询组装）；`GET /api/recommend/history`。
 - **Acceptance**: 返回 6 类结果并带 model_version；模型未加载时返回友好错误。
 - **Dependencies**: T-7, T-8a, T-11
 
 ### T-13：实现训练记录路由
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-4
 - **Description**: 打卡写入与历史查询。
 - **Acceptance**: 记录可写、倒序查询。
 - **Dependencies**: T-9, T-10
 
 ### T-14：实现仪表盘与身体指标路由
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-6
 - **Description**: 体重录入；完成率/体重趋势聚合接口。
 - **Acceptance**: 返回按周/月聚合的序列数据。
 - **Dependencies**: T-13
 
 ### T-15：实现动态调整规则引擎
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: US-5
 - **Description**: 按 design.md §5.3 规则，周期结束且打卡 ≥3 时给出频率/强度调整建议。
 - **Acceptance**: 低完成率/高疲劳触发降档，高完成率/低疲劳触发升档。
 - **Dependencies**: T-13
 
 ### T-15a：实现管理员路由
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: 最小管理员
 - **Description**: 新增 `require_admin` 鉴权依赖；`GET /api/admin/users` 用户列表、`GET /api/admin/model` 模型版本与加载状态。
 - **Acceptance**: 非管理员访问返回 403，管理员可查看用户列表与模型信息。
