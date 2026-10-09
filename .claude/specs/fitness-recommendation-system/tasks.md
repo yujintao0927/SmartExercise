@@ -122,12 +122,12 @@
 - **Dependencies**: T-8
 
 ### T-9：定义 Pydantic Schemas
-- **Status**: pending
+- **Status**: completed
 - **Wired**: no
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-2, US-3, US-4
-- **Description**: 定义请求/响应模型，包含 9 特征（injury 为多选列表）与 6 输出的字段校验。
-- **Acceptance**: 非法输入（越界/缺失/「无」与其他部位同时选中）返回 422。
+- **Description**: 定义请求/响应模型（app/schemas.py），包含 9 特征（injury 为多选列表，用 Literal + field_validator 校验）与 6 输出的字段校验。
+- **Acceptance**: 非法输入（越界/缺失/「无」与其他部位同时选中）返回 422（pytest 4 通过）。
 - **Dependencies**: T-8
 
 ### T-10：实现认证路由与 JWT
