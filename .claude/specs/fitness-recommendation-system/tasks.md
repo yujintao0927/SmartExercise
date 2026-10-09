@@ -320,12 +320,12 @@
 - **Dependencies**: T-2
 
 ### P-2：需求分析与系统设计章节
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: 论文
-- **Description**: 将 requirements.md 与 design.md 转写为论文第 2–3 章（功能/非功能需求、架构、数据库设计，含 7 表与 ER 图）。
-- **Acceptance**: 章节含架构图、ER 图、数据表说明。
+- **Description**: 将 requirements.md 与 design.md 转写为论文第 2 章（相关技术）与第 3 章（功能/非功能需求、架构、7 表数据库设计）。
+- **Acceptance**: 章节含架构说明、数据库设计、特征定义。
 - **Dependencies**: P-1
 
 ### P-3：数据预处理与模型构建章节
