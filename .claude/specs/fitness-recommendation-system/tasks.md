@@ -198,11 +198,11 @@
 ## Phase 3：前端（使用 frontend-design / frontend-skill）
 
 ### T-16：前端基础框架
-- **Status**: pending
-- **Wired**: no
-- **Verified**: no
+- **Status**: completed
+- **Wired**: yes
+- **Verified**: yes
 - **Requirements**: infrastructure
-- **Description**: 路由、Pinia、Axios 封装（拦截器注入 JWT、统一错误处理）、布局组件；整体视觉设计应用 frontend-design skill。
+- **Description**: 路由（vue-router + 守卫）、Pinia、Axios 封装（JWT 拦截器 + 统一错误处理）、布局组件；整体视觉设计应用 frontend-design skill（深色工业力量感 + 酸性绿强调，Anton/Outfit 字体）。
 - **Acceptance**: 路由守卫对未登录访问跳转登录页。
 - **Dependencies**: T-0
 
