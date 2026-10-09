@@ -64,12 +64,12 @@
 - **Dependencies**: T-2
 
 ### T-4：特征工程与编码
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-3
-- **Description**: 派生 BMI；分类特征 OneHot/Label 编码；`injury` 多标签 one-hot（「无」与其他部位互斥）；数值特征标准化；保存编码器。
-- **Acceptance**: 编码后可复现，训练/推理编码一致。
+- **Description**: 编写 rule_engine.py（规则引擎 9特征→6输出，解决 MealPlan 仅 3 特征的数据缺口）+ build_dataset.py（采样 80k 训练样本）；派生 BMI；分类 Label 编码、injury 多标签 one-hot、数值标准化；保存编码器到 data/processed/train.joblib。
+- **Acceptance**: 编码后可复现，训练/推理编码一致（X 80000×15，编码器含 label/injury_mlb/scaler）。
 - **Dependencies**: T-3
 
 ### T-5：SMOTE 类别平衡
