@@ -287,12 +287,12 @@
 - **Dependencies**: T-15a, T-22
 
 ### T-24：模型与接口测试
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: NFR-性能, NFR-模型质量
 - **Description**: 验证推理一致性（相同画像结果稳定）；压测推荐接口响应时间。
-- **Acceptance**: 推荐 p95 ≤ 500ms；相同输入输出一致。
+- **Acceptance**: 推荐 p95 ≤ 500ms（实际 p95=158.8ms）；相同输入输出一致。
 - **Dependencies**: T-12
 
 ### T-25：端到端手工测试
