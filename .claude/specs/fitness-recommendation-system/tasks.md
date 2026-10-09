@@ -338,12 +338,12 @@
 - **Dependencies**: T-7, P-2
 
 ### P-4：系统实现章节
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: 论文
-- **Description**: 描述前后端关键模块实现、核心代码与界面截图。
-- **Acceptance**: 覆盖 6 大功能模块（对应 T-10 ~ T-22）。
+- **Description**: 撰写第 5 章：后端模块、前端模块、模型推理服务的实现。
+- **Acceptance**: 覆盖 6 大功能模块（认证/画像/推荐/训练/仪表盘/管理）。
 - **Dependencies**: T-22, P-2
 
 ### P-5：系统测试与结果分析章节
