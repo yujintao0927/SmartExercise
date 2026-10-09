@@ -1,4 +1,6 @@
 """业务逻辑：模型推理 + 动作组合组装 + 动态调整规则（T-12/T-15）。"""
+from datetime import date, timedelta
+
 import joblib
 import numpy as np
 from sqlalchemy.orm import Session
@@ -86,3 +88,33 @@ def adjust_plan(db: Session, user_id: int) -> dict:
                 "advice": "完成率高且疲劳低，建议提升频率与强度"}
     return {"available": True, "frequency_delta": 0, "intensity_delta": 0,
             "advice": "维持当前计划"}
+
+
+def training_stats(db: Session, user_id: int) -> dict:
+    """训练统计：连续打卡天数、累计次数、本周次数与完成率均值。"""
+    records = (
+        db.query(TrainingRecord)
+        .filter_by(user_id=user_id)
+        .order_by(TrainingRecord.train_date.desc())
+        .all()
+    )
+    dates = sorted({r.train_date for r in records}, reverse=True)
+    streak = 0
+    if dates:
+        streak = 1
+        for i in range(1, len(dates)):
+            if (dates[i - 1] - dates[i]).days == 1:
+                streak += 1
+            else:
+                break
+
+    week_ago = date.today() - timedelta(days=7)
+    week = [r for r in records if r.train_date >= week_ago]
+    week_avg = round(sum(r.completion_rate for r in week) / len(week), 4) if week else 0.0
+
+    return {
+        "streak_days": streak,
+        "total_sessions": len(records),
+        "week_sessions": len(week),
+        "week_completion_avg": week_avg,
+    }

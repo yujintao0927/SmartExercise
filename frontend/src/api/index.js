@@ -1,9 +1,8 @@
 import axios from 'axios'
 import mockAdapter from '../mock/adapter'
 
-// 接口尚未全部实现，前端先用 mock 数据联调。
-// 后端接口实现完成后，将 USE_MOCK 改为 false 即切换到真实接口。
-const USE_MOCK = true
+// 接口已实现，切换到真实接口。如需回退 mock 联调，将 USE_MOCK 改为 true。
+const USE_MOCK = false
 
 const api = axios.create({
   baseURL: 'http://127.0.0.1:8000/api',

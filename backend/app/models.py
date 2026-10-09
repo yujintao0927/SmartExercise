@@ -1,7 +1,7 @@
 """SQLAlchemy ORM 模型（7 张表，对应 design.md §2.2）。"""
 from datetime import datetime
 
-from sqlalchemy import Column, Date, DateTime, Float, ForeignKey, Integer, JSON, String
+from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, JSON, String
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -14,6 +14,7 @@ class User(Base):
     username = Column(String(50), unique=True, nullable=False)
     password_hash = Column(String(100), nullable=False)
     role = Column(String(20), default="user")
+    active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 

@@ -3,8 +3,11 @@
 把规则引擎的动作库迁移到 exercise（动作字典）与 plan_template（计划模板）表，
 供推荐接口组装动作组合时查询。
 """
-from app.database import SessionLocal
-from app.models import Exercise, PlanTemplate
+from sqlalchemy import inspect, text
+
+from app.database import Base, SessionLocal, engine
+from app.models import Exercise, PlanTemplate, User
+from app.security import hash_password
 from ml.rule_engine import EXERCISES
 
 # 动作类型（简单启发式）：有氧/柔韧，其余按力量处理
@@ -24,7 +27,29 @@ def classify(name):
 
 
 def seed():
+    Base.metadata.create_all(bind=engine)
+
+    # 轻量迁移：为旧库的 user 表补充 active 列（幂等，不删数据）
+    insp = inspect(engine)
+    if "user" in insp.get_table_names():
+        cols = [c["name"] for c in insp.get_columns("user")]
+        if "active" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE user ADD COLUMN active BOOLEAN DEFAULT 1"))
+
     db = SessionLocal()
+
+    # 默认管理员账号（首次初始化创建，密码 admin123）
+    if not db.query(User).filter_by(username="admin").first():
+        db.add(User(username="admin", password_hash=hash_password("admin123"), role="admin"))
+
+    # 动作库与模板（幂等：已存在则跳过）
+    if db.query(Exercise).first():
+        db.commit()
+        db.close()
+        print("动作库与模板已存在，跳过动作/模板 seed")
+        return
+
     # 收集去重后的动作名
     names = set()
     for exercises in EXERCISES.values():

@@ -79,3 +79,33 @@ class RecommendOut(BaseModel):
     intensity_level: str
     training_cycle_weeks: int
     model_version: str
+
+
+class PasswordIn(BaseModel):
+    old_password: str
+    new_password: str = Field(min_length=6, max_length=100)
+
+
+class StatusIn(BaseModel):
+    active: bool
+
+
+class ResetPwdIn(BaseModel):
+    new_password: Optional[str] = Field(None, min_length=6, max_length=100)
+
+
+class ExerciseIn(BaseModel):
+    name: str = Field(min_length=1, max_length=50)
+    muscle_group: str = Field(max_length=30)
+    exercise_type: str = Field(max_length=20)
+
+
+class TemplateIn(BaseModel):
+    goal: Goal
+    intensity_level: str
+    exercise_ids: List[int]
+    sets: int = Field(ge=1)
+    reps: int = Field(ge=1)
+    session_duration_min: int = Field(ge=1)
+    weekly_frequency: int = Field(ge=1, le=7)
+    training_cycle_weeks: int = Field(ge=1)
