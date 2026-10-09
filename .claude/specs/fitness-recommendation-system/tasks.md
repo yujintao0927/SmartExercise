@@ -329,12 +329,12 @@
 - **Dependencies**: P-1
 
 ### P-3：数据预处理与模型构建章节
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: 论文
-- **Description**: 撰写数据清洗、特征工程（含 injury 多标签编码）、SMOTE、随机森林训练与调优；附特征重要性结果。
-- **Acceptance**: 含实验数据与图表（对应 T-3 ~ T-7）。
+- **Description**: 撰写第 4 章：数据来源、清洗、特征工程（含 injury 多标签编码）、SMOTE、随机森林训练与调优；附特征重要性结果。
+- **Acceptance**: 含实验数据（94,866 样本、SMOTE 前后分布、F1=1.0、最优超参）。
 - **Dependencies**: T-7, P-2
 
 ### P-4：系统实现章节
