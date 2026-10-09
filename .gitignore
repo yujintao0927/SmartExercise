@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+*.db
+.pytest_cache/
+
+# Node / 前端
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+
+# 数据与模型（大文件，按需再纳入版本管理）
+data/raw/
+data/processed/
+*.joblib
+*.pkl
+*.csv
+*.xlsx
+*.xls
+
+# Word 临时锁文件
+~$*.docx
+
+# 系统
+.DS_Store
+Thumbs.db
+*.log

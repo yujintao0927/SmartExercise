@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+pymysql
+pydantic
+PyJWT
+bcrypt
+scikit-learn
+imbalanced-learn
+pandas
+joblib
+pytest
