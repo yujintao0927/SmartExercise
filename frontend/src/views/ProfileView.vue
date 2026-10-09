@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '../api'
 
@@ -11,30 +11,27 @@ const DIETS = ['均衡', '高蛋白', '低碳水', '低脂', '素食']
 const INJURIES = ['无', '膝', '腰', '肩', '腕', '踝', '其他']
 
 const form = ref({
-  gender: 0,
-  age: 25,
-  height_cm: 175,
-  weight_kg: 70,
-  goal: '增肌',
-  experience_level: '初级',
-  weekly_hours: 6,
-  diet_preference: '高蛋白',
-  injury: ['无'],
+  gender: 0, age: 25, height_cm: 175, weight_kg: 70,
+  goal: '增肌', experience_level: '初级', weekly_hours: 6,
+  diet_preference: '高蛋白', injury: ['无'],
 })
-
 const error = ref('')
 const saving = ref(false)
 
 function toggleInjury(part) {
-  if (part === '无') {
-    form.value.injury = ['无']
-    return
-  }
+  if (part === '无') { form.value.injury = ['无']; return }
   const list = form.value.injury.filter((p) => p !== '无')
   const i = list.indexOf(part)
   if (i >= 0) list.splice(i, 1)
   else list.push(part)
   form.value.injury = list.length ? list : ['无']
+}
+
+async function load() {
+  try {
+    const { data } = await api.get('/profile')
+    form.value = { ...form.value, ...data }
+  } catch { /* 未录入画像则使用默认值 */ }
 }
 
 async function submit() {
@@ -50,16 +47,20 @@ async function submit() {
     saving.value = false
   }
 }
+
+onMounted(load)
 </script>
 
 <template>
-  <div class="fade-up">
-    <span class="tag">Profile</span>
-    <h1 class="title">录入<span class="accent">画像</span></h1>
-    <p class="muted">9 项身体与习惯特征，用于生成个性化计划</p>
+  <div>
+    <div class="page-head reveal">
+      <span class="eyebrow">Profile</span>
+      <h1>录入<em>画像</em></h1>
+      <p>9 项身体与习惯特征，用于生成个性化训练计划。</p>
+    </div>
 
-    <form class="card form" @submit.prevent="submit">
-      <div class="grid">
+    <form class="panel panel--accent reveal reveal-1" style="padding: 26px" @submit.prevent="submit">
+      <div class="form-grid">
         <div class="field">
           <label>性别</label>
           <select v-model.number="form.gender">
@@ -119,7 +120,7 @@ async function submit() {
         </div>
       </div>
 
-      <p v-if="error" class="error">{{ error }}</p>
+      <p v-if="error" class="error-text" style="margin-bottom: 14px">{{ error }}</p>
       <button class="btn" type="submit" :disabled="saving">
         {{ saving ? '保存中…' : '保存并生成推荐' }}
       </button>
@@ -128,50 +129,17 @@ async function submit() {
 </template>
 
 <style scoped>
-.title {
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  margin: 8px 0 4px;
-}
-
-.accent {
-  color: var(--accent);
-}
-
-.form {
-  margin-top: 28px;
-  padding: 28px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0 20px;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
-  background: var(--bg-elevated);
-  border: 1px solid var(--line);
-  border-radius: 2px;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
   color: var(--text-muted);
-  padding: 8px 16px;
+  padding: 8px 18px;
+  font-size: 0.88rem;
   font-weight: 600;
-  transition: all 0.15s ease;
+  transition: all 0.15s var(--ease);
 }
-
-.chip--on {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(200, 255, 0, 0.06);
-}
-
-.error {
-  color: var(--danger);
-  margin-bottom: 14px;
-}
+.chip:hover { border-color: var(--text-faint); color: var(--text); }
+.chip--on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 </style>

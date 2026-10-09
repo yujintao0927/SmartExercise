@@ -9,15 +9,20 @@ const form = ref({
   feedback: '适中',
   duration_min: 60,
 })
-
 const records = ref([])
+const stats = ref(null)
 const adjustment = ref(null)
 const error = ref('')
 
 async function load() {
-  const { data } = await api.get('/dashboard/summary')
-  records.value = data.training
-  adjustment.value = data.adjustment
+  const [s, d, r] = await Promise.all([
+    api.get('/training/stats'),
+    api.get('/dashboard/summary'),
+    api.get('/training/records'),
+  ])
+  stats.value = s.data
+  adjustment.value = d.data.adjustment
+  records.value = r.data
 }
 
 async function submit() {
@@ -35,17 +40,42 @@ onMounted(load)
 </script>
 
 <template>
-  <div class="fade-up">
-    <span class="tag">Training</span>
-    <h1 class="title">训练<span class="accent">打卡</span></h1>
-
-    <div v-if="adjustment?.available" class="card adjust">
-      <h3>动态调整建议</h3>
-      <p>{{ adjustment.advice }}</p>
+  <div>
+    <div class="page-head reveal">
+      <span class="eyebrow">Training</span>
+      <h1>训练<em>打卡</em></h1>
+      <p>记录每次训练，系统会根据完成率与疲劳动态调整计划。</p>
     </div>
 
-    <form class="card form" @submit.prevent="submit">
-      <div class="grid">
+    <div class="kpi-grid reveal reveal-1">
+      <div class="kpi">
+        <div class="kpi__label">连续打卡</div>
+        <div class="kpi__value">{{ stats?.streak_days ?? '—' }}<em> 天</em></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi__label">累计训练</div>
+        <div class="kpi__value">{{ stats?.total_sessions ?? '—' }}<em> 次</em></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi__label">本周打卡</div>
+        <div class="kpi__value">{{ stats?.week_sessions ?? '—' }}<em> 次</em></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi__label">本周完成率</div>
+        <div class="kpi__value">{{ stats ? Math.round(stats.week_completion_avg * 100) : '—' }}<em>%</em></div>
+      </div>
+    </div>
+
+    <div v-if="adjustment?.available" class="panel reveal reveal-2" style="margin-top: 16px; border-color: var(--accent-dim)">
+      <div class="panel__head">
+        <h3>动态调整建议</h3>
+        <span class="badge badge--accent">AI 建议</span>
+      </div>
+      <div class="panel__body" style="color: var(--text-muted)">{{ adjustment.advice }}</div>
+    </div>
+
+    <form class="panel panel--accent reveal reveal-2" style="margin-top: 16px; padding: 24px" @submit.prevent="submit">
+      <div class="form-grid">
         <div class="field">
           <label>训练日期</label>
           <input v-model="form.train_date" type="date" required />
@@ -59,7 +89,7 @@ onMounted(load)
           <input v-model.number="form.fatigue_score" type="range" min="1" max="10" />
         </div>
         <div class="field">
-          <label>反馈</label>
+          <label>主观反馈</label>
           <select v-model="form.feedback">
             <option>太轻松</option>
             <option>适中</option>
@@ -71,77 +101,32 @@ onMounted(load)
           <input v-model.number="form.duration_min" type="number" min="0" />
         </div>
       </div>
-      <p v-if="error" class="error">{{ error }}</p>
+      <p v-if="error" class="error-text" style="margin-bottom: 14px">{{ error }}</p>
       <button class="btn" type="submit">提交打卡</button>
     </form>
 
-    <div class="card block">
-      <h3>历史记录</h3>
-      <p v-if="!records.length" class="muted">暂无训练记录</p>
-      <ul class="list">
-        <li v-for="r in records.slice().reverse()" :key="r.date" class="row">
-          <span>{{ r.date }}</span>
-          <span class="muted">完成率 {{ Math.round(r.completion_rate * 100) }}%</span>
-          <span class="muted">疲劳 {{ r.fatigue_score }}</span>
-        </li>
-      </ul>
+    <div class="panel reveal reveal-3" style="margin-top: 16px">
+      <div class="panel__head">
+        <h3>打卡历史</h3>
+        <span class="hint">{{ records.length }} 条</span>
+      </div>
+      <div class="panel__body" style="padding: 6px 0">
+        <div v-if="!records.length" class="empty"><div class="glyph">—</div><p>暂无训练记录</p></div>
+        <table v-else class="data">
+          <thead>
+            <tr><th>日期</th><th>完成率</th><th>疲劳</th><th>反馈</th><th>时长</th></tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in records" :key="r.id">
+              <td class="num">{{ r.train_date }}</td>
+              <td class="num">{{ Math.round(r.completion_rate * 100) }}%</td>
+              <td class="num">{{ r.fatigue_score }}/10</td>
+              <td>{{ r.feedback || '—' }}</td>
+              <td class="num">{{ r.duration_min ? r.duration_min + ' 分' : '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.title {
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  margin: 8px 0 20px;
-}
-
-.accent {
-  color: var(--accent);
-}
-
-.adjust {
-  padding: 20px;
-  margin-bottom: 16px;
-}
-
-.adjust h3 {
-  font-size: 1.1rem;
-  margin-bottom: 6px;
-}
-
-.form {
-  padding: 24px;
-  margin-bottom: 16px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0 20px;
-}
-
-.block {
-  padding: 20px;
-}
-
-.block h3 {
-  font-size: 1.1rem;
-  margin-bottom: 12px;
-}
-
-.list {
-  list-style: none;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.error {
-  color: var(--danger);
-  margin-bottom: 12px;
-}
-</style>

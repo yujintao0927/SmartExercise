@@ -29,107 +29,67 @@ async function submit() {
       await api.post('/auth/register', { username: username.value, password: password.value })
       await auth.login(username.value, password.value)
     }
-    router.push('/')
+    router.push(auth.isAdmin ? '/admin' : '/')
   } catch (e) {
     error.value = errText(e)
   } finally {
     loading.value = false
   }
 }
+
+function useDemo(which) {
+  username.value = which
+  password.value = '123456'
+  mode.value = 'login'
+}
 </script>
 
 <template>
   <div class="auth">
-    <div class="auth__panel fade-up">
-      <div class="brand">FORCE<span>LAB</span></div>
-      <h1 class="auth__title">{{ mode === 'login' ? '登录' : '注册' }}</h1>
-      <p class="muted">进入你的力量计划</p>
+    <div class="auth__visual">
+      <div class="brand">FORCE<em>LAB</em></div>
+      <div class="headline">训练<br />由数据<em>驱动</em></div>
+      <div>
+        <p class="sub">基于机器学习的健身计划推荐系统 —— 输入 9 项特征，生成专属于你的力量计划。</p>
+      </div>
+    </div>
 
-      <form @submit.prevent="submit">
-        <div class="field">
-          <label>用户名</label>
-          <input v-model="username" required minlength="3" autocomplete="username" />
-        </div>
-        <div class="field">
-          <label>密码</label>
-          <input v-model="password" type="password" required minlength="6" autocomplete="current-password" />
-        </div>
+    <div class="auth__form-side">
+      <div class="auth__panel">
+        <h1>{{ mode === 'login' ? '登录' : '注册' }}</h1>
+        <p>{{ mode === 'login' ? '进入你的力量计划' : '创建账号开始训练' }}</p>
 
-        <p v-if="error" class="auth__error">{{ error }}</p>
+        <form @submit.prevent="submit">
+          <div class="field">
+            <label>用户名</label>
+            <input v-model="username" required minlength="3" autocomplete="username" placeholder="username" />
+          </div>
+          <div class="field">
+            <label>密码</label>
+            <input v-model="password" type="password" required minlength="6" autocomplete="current-password" placeholder="••••••" />
+          </div>
 
-        <button class="btn btn--block" type="submit" :disabled="loading">
-          {{ loading ? '处理中…' : mode === 'login' ? '登录' : '注册' }}
+          <p v-if="error" class="error-text" style="margin-bottom: 14px">{{ error }}</p>
+
+          <button class="btn btn--block" type="submit" :disabled="loading">
+            {{ loading ? '处理中…' : mode === 'login' ? '登录' : '注册并登录' }}
+          </button>
+        </form>
+
+        <button class="auth__switch" @click="mode = mode === 'login' ? 'register' : 'login'">
+          {{ mode === 'login' ? '没有账号？注册' : '已有账号？登录' }}
         </button>
-      </form>
 
-      <button class="auth__switch" @click="mode = mode === 'login' ? 'register' : 'login'">
-        {{ mode === 'login' ? '没有账号？注册' : '已有账号？登录' }}
-      </button>
+        <div style="margin-top: 26px; border-top: 1px solid var(--line); padding-top: 16px">
+          <p class="mono" style="font-size: 0.68rem; letter-spacing: 0.12em; color: var(--text-faint); margin-bottom: 10px">
+            演示账号（密码任意）
+          </p>
+          <div style="display: flex; gap: 8px">
+            <button class="btn btn--ghost btn--sm" @click="useDemo('demo')">会员 demo</button>
+            <button class="btn btn--ghost btn--sm" @click="useDemo('admin')">管理员 admin</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.auth {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.auth__panel {
-  width: 100%;
-  max-width: 400px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 40px 32px;
-}
-
-.brand {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  letter-spacing: 0.04em;
-  color: var(--text);
-  margin-bottom: 24px;
-}
-
-.brand span {
-  color: var(--accent);
-}
-
-.auth__title {
-  font-size: 2.6rem;
-  margin-bottom: 4px;
-}
-
-.auth__panel form {
-  margin-top: 28px;
-}
-
-.auth__error {
-  color: var(--danger);
-  font-size: 0.9rem;
-  margin-bottom: 12px;
-}
-
-.btn--block {
-  width: 100%;
-}
-
-.auth__switch {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  margin-top: 18px;
-  width: 100%;
-  font-size: 0.9rem;
-  transition: color 0.15s ease;
-}
-
-.auth__switch:hover {
-  color: var(--accent);
-}
-</style>

@@ -1,10 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import api from '../api'
 
 const result = ref(null)
+const history = ref([])
 const error = ref('')
 const loading = ref(false)
+
+async function loadHistory() {
+  try {
+    const { data } = await api.get('/recommend/history')
+    history.value = data
+  } catch { /* ignore */ }
+}
 
 async function generate() {
   loading.value = true
@@ -12,168 +20,102 @@ async function generate() {
   try {
     const { data } = await api.post('/recommend', {})
     result.value = data
+    await loadHistory()
   } catch (e) {
     const d = e.response?.data?.detail
-    error.value = Array.isArray(d) ? d[0]?.msg : d || '生成失败'
+    error.value = Array.isArray(d) ? d[0]?.msg : d || '生成失败，请先录入画像'
   } finally {
     loading.value = false
   }
 }
+
+function fmtTime(s) {
+  return s ? s.replace('T', ' ').slice(0, 16) : ''
+}
+
+onMounted(loadHistory)
 </script>
 
 <template>
-  <div class="fade-up">
-    <span class="tag">Recommend</span>
-    <h1 class="title">你的<span class="accent">训练计划</span></h1>
+  <div>
+    <div class="page-head reveal">
+      <span class="eyebrow">Recommend</span>
+      <h1>智能<em>推荐</em></h1>
+      <p>基于随机森林模型，生成 6 类结构化训练结果。</p>
+    </div>
 
-    <button class="btn gen" @click="generate" :disabled="loading">
+    <button class="btn reveal reveal-1" @click="generate" :disabled="loading">
       {{ loading ? '生成中…' : '生成推荐' }}
     </button>
+    <p v-if="error" class="error-text" style="margin-top: 12px">{{ error }}</p>
 
-    <p v-if="error" class="error">{{ error }}</p>
+    <template v-if="result">
+      <div class="panel panel--accent reveal reveal-2" style="margin-top: 20px">
+        <div class="panel__head">
+          <h3>推荐结果</h3>
+          <div style="display: flex; gap: 8px">
+            <span class="badge badge--accent">{{ result.target_goal }}</span>
+            <span class="badge">{{ result.intensity_level }} 强度</span>
+          </div>
+        </div>
+        <div class="panel__body">
+          <div class="kpi-grid">
+            <div class="kpi">
+              <div class="kpi__label">每周频率</div>
+              <div class="kpi__value">{{ result.weekly_frequency }}<em> 次</em></div>
+            </div>
+            <div class="kpi">
+              <div class="kpi__label">单次时长</div>
+              <div class="kpi__value">{{ result.session_duration_min }}<em> 分</em></div>
+            </div>
+            <div class="kpi">
+              <div class="kpi__label">训练周期</div>
+              <div class="kpi__value">{{ result.training_cycle_weeks }}<em> 周</em></div>
+            </div>
+          </div>
 
-    <div v-if="result" class="result">
-      <div class="stats">
-        <div class="card stat">
-          <div class="stat__num">{{ result.weekly_frequency }}</div>
-          <div class="muted">每周次数</div>
-        </div>
-        <div class="card stat">
-          <div class="stat__num">{{ result.session_duration_min }}<small>min</small></div>
-          <div class="muted">单次时长</div>
-        </div>
-        <div class="card stat">
-          <div class="stat__num">{{ result.training_cycle_weeks }}<small>周</small></div>
-          <div class="muted">训练周期</div>
+          <div style="margin-top: 20px">
+            <h4 style="font-size: 0.8rem; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px">动作组合</h4>
+            <div style="display: flex; flex-direction: column">
+              <div
+                v-for="(ex, i) in result.exercise_plan"
+                :key="i"
+                style="display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line)"
+              >
+                <span class="mono" style="color: var(--accent)">{{ String(i + 1).padStart(2, '0') }}</span>
+                <span style="flex: 1; font-weight: 600">{{ ex.name }}</span>
+                <span class="muted" style="font-size: 0.88rem">{{ ex.sets }} 组 × {{ ex.reps }} 次</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="mono" style="font-size: 0.72rem; color: var(--text-faint); margin-top: 16px">模型版本 {{ result.model_version }}</p>
         </div>
       </div>
+    </template>
 
-      <div class="card block">
-        <div class="row">
-          <span class="muted">训练目标</span>
-          <span class="tag">{{ result.target_goal }}</span>
-        </div>
-        <div class="row">
-          <span class="muted">强度等级</span>
-          <span class="tag">{{ result.intensity_level }}</span>
-        </div>
+    <div class="panel reveal reveal-3" style="margin-top: 20px">
+      <div class="panel__head">
+        <h3>推荐历史</h3>
+        <span class="hint">{{ history.length }} 条</span>
       </div>
-
-      <div class="card block">
-        <h3>动作组合</h3>
-        <ul class="ex-list">
-          <li v-for="(ex, i) in result.exercise_plan" :key="i" class="ex">
-            <span class="ex__idx">{{ String(i + 1).padStart(2, '0') }}</span>
-            <span class="ex__name">{{ ex.name }}</span>
-            <span class="ex__meta">{{ ex.sets }} 组 × {{ ex.reps }} 次</span>
-          </li>
-        </ul>
+      <div class="panel__body" style="padding: 6px 0">
+        <div v-if="!history.length" class="empty"><div class="glyph">—</div><p>暂无推荐记录</p></div>
+        <table v-else class="data">
+          <thead>
+            <tr><th>时间</th><th>目标</th><th>频率</th><th>强度</th><th>周期</th></tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in history" :key="r.id">
+              <td class="num">{{ fmtTime(r.created_at) }}</td>
+              <td style="font-weight: 600">{{ r.target_goal }}</td>
+              <td class="num">{{ r.weekly_frequency }} 次/周</td>
+              <td>{{ r.intensity_level }}</td>
+              <td class="num">{{ r.training_cycle_weeks }} 周</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-      <p class="muted version">模型版本：{{ result.model_version }}</p>
     </div>
   </div>
 </template>
-
-<style scoped>
-.title {
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  margin: 8px 0 20px;
-}
-
-.accent {
-  color: var(--accent);
-}
-
-.gen {
-  margin-bottom: 16px;
-}
-
-.error {
-  color: var(--danger);
-  margin-bottom: 16px;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.stat {
-  padding: 24px;
-}
-
-.stat__num {
-  font-family: var(--font-display);
-  font-size: 3.2rem;
-  line-height: 1;
-  color: var(--accent);
-}
-
-.stat__num small {
-  font-size: 1.2rem;
-  margin-left: 2px;
-  color: var(--text-muted);
-}
-
-.block {
-  padding: 20px;
-  margin-bottom: 16px;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.row:last-child {
-  border-bottom: none;
-}
-
-.block h3 {
-  font-size: 1.1rem;
-  margin-bottom: 12px;
-}
-
-.ex-list {
-  list-style: none;
-}
-
-.ex {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.ex:last-child {
-  border-bottom: none;
-}
-
-.ex__idx {
-  font-family: var(--font-display);
-  color: var(--accent);
-  font-size: 1.1rem;
-  min-width: 28px;
-}
-
-.ex__name {
-  flex: 1;
-  font-weight: 600;
-}
-
-.ex__meta {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.version {
-  font-size: 0.85rem;
-}
-</style>
