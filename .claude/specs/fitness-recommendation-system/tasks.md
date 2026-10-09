@@ -311,12 +311,12 @@
 > P 任务可随对应 T 任务完成即启动，不必等全部开发结束。
 
 ### P-1：绪论与国内外研究现状
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: 论文
-- **Description**: 撰写选题背景、目的意义、国内外研究现状与文献综述。
-- **Acceptance**: 引用开题报告参考文献 [1]–[10]，完成初稿。
+- **Description**: 撰写选题背景、目的意义、国内外研究现状与文献综述（docs/论文.md 第 1 章）。
+- **Acceptance**: 引用开题报告参考文献 [2][4][5][8][9][10]，完成初稿。
 - **Dependencies**: T-2
 
 ### P-2：需求分析与系统设计章节
