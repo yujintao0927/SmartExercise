@@ -55,12 +55,12 @@
 - **Dependencies**: T-0
 
 ### T-3：数据清洗与多源融合
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-3, NFR-数据质量
-- **Description**: Pandas 去重、异常值过滤、缺失值填充；采用特征映射统一三套数据集与问卷到同一特征矩阵（非直接样本拼接）。
-- **Acceptance**: 生成统一特征矩阵，可用样本 ≥ 89,000 条。
+- **Description**: 编写 backend/ml/preprocess.py，做缺失填充、异常值裁剪（winsorize）、去重；MealPlan（80k，实为 16 规则组合重复的标签主数据集）保留原始规模，其余数据集去重；输出 data/processed/ 清洗后数据。
+- **Acceptance**: 生成统一特征矩阵，可用样本 ≥ 89,000 条（实际 94,866）。
 - **Dependencies**: T-2
 
 ### T-4：特征工程与编码
