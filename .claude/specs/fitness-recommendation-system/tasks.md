@@ -278,12 +278,12 @@
 ## Phase 5：测试
 
 ### T-23：后端单元测试
-- **Status**: pending
+- **Status**: completed
 - **Wired**: n/a
-- **Verified**: no
+- **Verified**: yes
 - **Requirements**: US-1, US-3, US-5
-- **Description**: pytest 覆盖认证、画像校验、规则引擎；使用 `unittest.mock.patch` 隔离 DB/模型。
-- **Acceptance**: 关键用例通过，覆盖核心逻辑。
+- **Description**: pytest 覆盖认证（密码哈希/JWT）、画像校验（Pydantic）、规则引擎、动态调整规则；使用 unittest.mock 的 MagicMock 隔离 DB。
+- **Acceptance**: 关键用例通过（13 passed），覆盖核心逻辑。
 - **Dependencies**: T-15a, T-22
 
 ### T-24：模型与接口测试
